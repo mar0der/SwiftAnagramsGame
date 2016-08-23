@@ -56,11 +56,34 @@ class GameController {
                 let tile = TileView(letter: letter, sideLength: tileSide)
                 tile.center = CGPointMake(xOffset + CGFloat(index)*(tileSide+TileMargin), ScreenHeight/4*3)
                 tile.randomize()
+                tile.dragDelegate = self
                 
                 gameView.addSubview(tile)
                 tiles.append(tile)
             }
         }
 
+    }
+}
+
+extension GameController:TileDragDelegateProtocol{
+    func tileView(tileView: TileView, didDragToPoint point: CGPoint) {
+        var targetView: TargetView?
+        for tv in targets {
+            if tv.frame.contains(point) && !tv.isMatched {
+                targetView = tv
+                break
+            }
+        }
+        
+        if let targetView = targetView {
+            
+            if targetView.letter == tileView.letter{
+                    print("success")
+            }else{
+                print("falure")
+            }
+            
+        }
     }
 }
