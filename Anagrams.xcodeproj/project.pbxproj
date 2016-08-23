@@ -32,6 +32,9 @@
 		82C889D1198B1A4800F90156 /* credits.txt in Resources */ = {isa = PBXBuildFile; fileRef = 82C889D0198B1A4800F90156 /* credits.txt */; };
 		82C889D2198B261700F90156 /* Comic_Andy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82C889B1198B19A900F90156 /* Comic_Andy.ttf */; };
 		82C889D3198B261C00F90156 /* wrong.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 82C889B8198B19CF00F90156 /* wrong.m4a */; };
+		E4AE2EB41D6B604400AABE90 /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4AE2EB31D6B604400AABE90 /* Level.swift */; };
+		E4AE2EB61D6BA02100AABE90 /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4AE2EB51D6BA02100AABE90 /* GameController.swift */; };
+		E4AE2EB81D6C32C100AABE90 /* TileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4AE2EB71D6C32C100AABE90 /* TileView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +77,9 @@
 		82C889CC198B1A2A00F90156 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		82C889CD198B1A2A00F90156 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		82C889D0198B1A4800F90156 /* credits.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = credits.txt; sourceTree = "<group>"; };
+		E4AE2EB31D6B604400AABE90 /* Level.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Level.swift; sourceTree = "<group>"; };
+		E4AE2EB51D6BA02100AABE90 /* GameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameController.swift; sourceTree = "<group>"; };
+		E4AE2EB71D6C32C100AABE90 /* TileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TileView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +185,7 @@
 		82C889AC198B197500F90156 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				E4AE2EB31D6B604400AABE90 /* Level.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -186,6 +193,7 @@
 		82C889AD198B197A00F90156 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E4AE2EB71D6C32C100AABE90 /* TileView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -193,6 +201,7 @@
 		82C889AE198B198000F90156 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				E4AE2EB51D6BA02100AABE90 /* GameController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -370,7 +379,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				82C88988198B13A700F90156 /* ViewController.swift in Sources */,
+				E4AE2EB61D6BA02100AABE90 /* GameController.swift in Sources */,
+				E4AE2EB41D6B604400AABE90 /* Level.swift in Sources */,
 				82C88986198B13A700F90156 /* AppDelegate.swift in Sources */,
+				E4AE2EB81D6C32C100AABE90 /* TileView.swift in Sources */,
 				82C889A3198B13C600F90156 /* Config.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
