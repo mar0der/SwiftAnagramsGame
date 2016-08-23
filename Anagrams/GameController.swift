@@ -12,6 +12,7 @@ class GameController {
     var gameView: UIView!
     var level: Level!
     private var tiles = [TileView]()
+    private var targets = [TargetView]()
     
     init(){
         //self.dealRandomAnagram()
@@ -36,18 +37,30 @@ class GameController {
         //adjust for tile center (instead of the tile's origin)
         xOffset += tileSide / 2.0
         
+        //Important to add targets before the tiles so the will be under the tiles
+        targets = []
+        
+        for(index,letter) in anagram2.characters.enumerate(){
+            if(letter != " "){
+                let target = TargetView(letter: letter, sideLength: tileSide)
+                target.center = CGPointMake(xOffset + CGFloat(index)*(tileSide + TileMargin), ScreenHeight/4)
+                gameView.addSubview(target)
+                targets.append(target)
+            }
+        }
+        
         tiles = []
         
         for (index, letter) in anagram1.characters.enumerate() {
             if letter != " " {
                 let tile = TileView(letter: letter, sideLength: tileSide)
                 tile.center = CGPointMake(xOffset + CGFloat(index)*(tileSide+TileMargin), ScreenHeight/4*3)
+                tile.randomize()
                 
                 gameView.addSubview(tile)
                 tiles.append(tile)
             }
         }
-        print("phrase1[\(anagram1Length)]: \(anagram1)")
-        print("phrase1[\(anagram2Length)]: \(anagram2)")
+
     }
 }
