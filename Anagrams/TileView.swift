@@ -76,6 +76,7 @@ class TileView:UIImageView {
             tempTransform = self.transform
             //enlarge
             self.transform = CGAffineTransformScale(self.transform, 1.2, 1.2)
+            self.superview?.bringSubviewToFront(self)
         }
     }
     

@@ -17,9 +17,11 @@ class GameController {
     private var secondsLeft: Int = 0
     private var timer: NSTimer?
     private var data = GameData()
+    private var audioController: AudioController
     
     init(){
-        //self.dealRandomAnagram()
+        self.audioController = AudioController()
+        self.audioController.preloadAudioEffects(AudioEffectFiles)
     }
     
     func dealRandomAnagram(){
@@ -118,7 +120,7 @@ class GameController {
         }
         
         self.stopStopwatch()
-        print("Game Over")
+        audioController.playEffect(SoundWin)
     }
     
     func startStopwatch(){
@@ -162,11 +164,13 @@ extension GameController:TileDragDelegateProtocol{
                 self.placeTile(tileView, targetView: targetView)
                 data.points += level.pointsPerTile
                 hud.gamePoints.setValue(data.points, duration: 0.5)
+                audioController.playEffect(SoundDing)
                 self.checkForSuccess()
             }else{
                 self.pushTileOut(tileView)
                 data.points -= level.pointsPerTile/2
                 hud.gamePoints.setValue(data.points, duration: 0.25)
+                audioController.playEffect(SoundWrong)
             }
             
         }

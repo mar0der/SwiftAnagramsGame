@@ -15,7 +15,10 @@ let ScreenHeight = UIScreen.mainScreen().bounds.size.height
 let TileMargin: CGFloat = 20.0
 let FontHUD = UIFont(name:"comic andy", size:62.0)!
 let FontHUDBig = UIFont(name: "comic andy", size: 120.0)!
-
+let SoundDing = "ding.mp3"
+let SoundWrong = "wrong.m4a"
+let SoundWin = "win.mp3"
+let AudioEffectFiles = [SoundDing, SoundWrong, SoundWin]
 
 
 //Random number generator
