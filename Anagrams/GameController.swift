@@ -87,6 +87,32 @@ class GameController {
             }
         )
     }
+    
+    func pushTileOut(tileView: TileView){
+        //because we want to rotate and move verticli the tile
+        tileView.randomize()
+        
+        UIView.animateWithDuration(0.35,
+            delay:0.00,
+            options:UIViewAnimationOptions.CurveEaseOut,
+            animations:{
+            tileView.center = CGPointMake(tileView.center.x + CGFloat(randomNumber(0, maxX: 40) - 20),
+                tileView.center.y + CGFloat (randomNumber(20, maxX: 30)))
+            },
+            completion: nil
+        )
+    }
+    
+    func checkForSuccess(){
+        for targetView in targets{
+            //if it finds not matched targets it exits the method
+            if !targetView.isMatched{
+                return
+            }
+        }
+        
+        print("Game Over");
+    }
 }
 
 extension GameController:TileDragDelegateProtocol{
@@ -104,9 +130,9 @@ extension GameController:TileDragDelegateProtocol{
             
             if targetView.letter == tileView.letter{
                 self.placeTile(tileView, targetView: targetView)
-                    print("success")
+                self.checkForSuccess()
             }else{
-                print("falure")
+                self.pushTileOut(tileView)
             }
             
         }
