@@ -161,12 +161,12 @@ extension GameController:TileDragDelegateProtocol{
             if targetView.letter == tileView.letter{
                 self.placeTile(tileView, targetView: targetView)
                 data.points += level.pointsPerTile
-                hud.gamePoints.value = data.points
+                hud.gamePoints.setValue(data.points, duration: 0.5)
                 self.checkForSuccess()
             }else{
                 self.pushTileOut(tileView)
                 data.points -= level.pointsPerTile/2
-                hud.gamePoints.value = data.points
+                hud.gamePoints.setValue(data.points, duration: 0.25)
             }
             
         }
