@@ -64,9 +64,33 @@ class GameController {
         }
 
     }
+    
+    func placeTile(tileView: TileView, targetView: TargetView){
+        targetView.isMatched = true
+        targetView.isMatched = true
+        
+        tileView.userInteractionEnabled = false
+        
+        UIView.animateWithDuration(0.15,
+            delay: 0.00,
+            options: UIViewAnimationOptions.CurveEaseOut,
+            animations:
+            {
+                tileView.center = targetView.center
+                //streighten out the tile
+                tileView.transform = CGAffineTransformIdentity
+            },
+            completion:
+            {
+                (value:Bool) in
+                targetView.hidden = true
+            }
+        )
+    }
 }
 
 extension GameController:TileDragDelegateProtocol{
+    
     func tileView(tileView: TileView, didDragToPoint point: CGPoint) {
         var targetView: TargetView?
         for tv in targets {
@@ -79,6 +103,7 @@ extension GameController:TileDragDelegateProtocol{
         if let targetView = targetView {
             
             if targetView.letter == tileView.letter{
+                self.placeTile(tileView, targetView: targetView)
                     print("success")
             }else{
                 print("falure")
