@@ -124,6 +124,24 @@ class GameController {
         
         self.stopStopwatch()
         audioController.playEffect(SoundWin)
+        let firstTarget = targets[0]
+        let startX: CGFloat = 0
+        let endX: CGFloat = ScreenWidth + 300
+        let startY = firstTarget.center.y
+        
+        let stars = StardustView(frame: CGRectMake(startX, startY, 10, 10))
+        gameView.addSubview(stars)
+        gameView.sendSubviewToBack(stars)
+        
+        UIView.animateWithDuration(3.0,
+                                   delay: 0.0,
+                                   options: UIViewAnimationOptions.CurveEaseOut,
+                                   animations: {
+                                    stars.center = CGPointMake(endX, startY)
+                                    },
+                                   completion: {
+                                    (value:Bool) in stars.removeFromSuperview()
+                                    })
     }
     
     func startStopwatch(){
