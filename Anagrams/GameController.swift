@@ -17,6 +17,7 @@ class GameController {
             hud.hintButton.enabled = false
         }
     }
+    var onAnagramSolved:(() -> ())!
     private var tiles = [TileView]()
     private var targets = [TargetView]()
     private var secondsLeft: Int = 0
@@ -150,7 +151,10 @@ class GameController {
                                     stars.center = CGPointMake(endX, startY)
                                     },
                                    completion: {
-                                    (value:Bool) in stars.removeFromSuperview()
+                                    (value:Bool) in
+                                        stars.removeFromSuperview()
+                                        self.clearBoard()
+                                        self.onAnagramSolved()
                                     })
     }
     
@@ -165,6 +169,15 @@ class GameController {
         //this is how we stop timer. Insanity?!
         timer?.invalidate()
         timer = nil
+    }
+    
+    func clearBoard(){
+        tiles.removeAll(keepCapacity: false)
+        targets.removeAll(keepCapacity: false)
+        
+        for view in gameView.subviews {
+            view.removeFromSuperview()
+        }
     }
     
     @objc func tick(timer:NSTimer){

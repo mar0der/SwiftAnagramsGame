@@ -28,7 +28,7 @@ class ViewController: UIViewController {
         
         controller.gameView = gameView
         controller.hud = hudView
-
+        controller.onAnagramSolved = self.showLevelMenu
         
     }
     
