@@ -11,7 +11,12 @@ import UIKit
 class GameController {
     var gameView: UIView!
     var level: Level!
-    var hud: HUDView!
+    var hud: HUDView! {
+        didSet {
+            hud.hintButton.addTarget(self, action: #selector(GameController.actionHint), forControlEvents: .TouchUpInside)
+            hud.hintButton.enabled = false
+        }
+    }
     private var tiles = [TileView]()
     private var targets = [TargetView]()
     private var secondsLeft: Int = 0
@@ -70,11 +75,13 @@ class GameController {
         }
         
         self.startStopwatch()
+        //enable the hing button right after the game begins
+        hud.hintButton.enabled = true
 
     }
     
     func placeTile(tileView: TileView, targetView: TargetView){
-        targetView.isMatched = true
+        tileView.isMatched = true
         targetView.isMatched = true
         
         tileView.userInteractionEnabled = false
@@ -122,6 +129,9 @@ class GameController {
             }
         }
         
+        //disable hint button right before game ends
+        hud.hintButton.enabled = false
+        
         self.stopStopwatch()
         audioController.playEffect(SoundWin)
         let firstTarget = targets[0]
@@ -165,6 +175,52 @@ class GameController {
         }
     }
     
+    @objc func actionHint(){
+        hud.hintButton.enabled = false
+        
+        data.points -= level.pointsPerTile / 2
+        hud.gamePoints.setValue(data.points, duration: 1.5)
+        
+        var foundTarget: TargetView? = nil
+        for target in targets {
+            if !target.isMatched {
+                foundTarget = target
+                break
+            }
+        }
+        
+        var foundTile:TileView? = nil
+        
+        for tile in tiles {
+            if !tile.isMatched && tile.letter == foundTarget?.letter {
+                foundTile = tile
+                break
+            }
+        }
+        
+        if let target = foundTarget, tile = foundTile {
+            //5 don't want the tile sliding under other tiles
+            gameView.bringSubviewToFront(tile)
+            
+            //6 show the animation to the user
+            UIView.animateWithDuration(1.5,
+                                       delay:0.0,
+                                       options:UIViewAnimationOptions.CurveEaseOut,
+                                       animations:{
+                                        tile.center = target.center
+                }, completion: {
+                    (value:Bool) in
+                    
+   
+                    self.placeTile(tile, targetView: target)
+                    
+                    self.hud.hintButton.enabled = true
+                    
+                    self.checkForSuccess()
+                    
+            })
+        }
+    }
     
 }
 

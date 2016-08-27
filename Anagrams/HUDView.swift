@@ -11,6 +11,7 @@ import UIKit
 class HUDView:UIView {
     var stopwatch: StopwatchView
     var gamePoints: CounterLabelView
+    var hintButton: UIButton!
     
     required init(coder aDecoder: NSCoder){
         fatalError(" use other init")
@@ -33,6 +34,26 @@ class HUDView:UIView {
         pointsLabel.font = FontHUD
         pointsLabel.text = "Points:"
         self.addSubview(pointsLabel)
-        self.userInteractionEnabled = false        
+        self.userInteractionEnabled = true
+        
+        let hintButtonImage = UIImage(named: "btn")!
+        
+        self.hintButton = UIButton(type:.Custom)
+        hintButton.setTitle("Hint!", forState: .Normal)
+        hintButton.titleLabel?.font = FontHUD
+        hintButton.setBackgroundImage(hintButtonImage, forState: .Normal)
+        hintButton.frame = CGRectMake(50, 30, hintButtonImage.size.width, hintButtonImage.size.height)
+        hintButton.alpha = 0.8
+        self.addSubview(hintButton)
+    }
+    
+    override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
+        let hitView = super.hitTest(point, withEvent: event)
+        
+        if hitView is UIButton {
+            return hitView
+        }
+        
+        return nil
     }
 }
