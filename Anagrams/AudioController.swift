@@ -9,16 +9,16 @@
 import AVFoundation
 
 class AudioController {
-    private var audio = [String:AVAudioPlayer]()
+    fileprivate var audio = [String:AVAudioPlayer]()
     
     
-    func preloadAudioEffects(effectFileNames:[String]){
+    func preloadAudioEffects(_ effectFileNames:[String]){
         for effect in AudioEffectFiles {
-            let soundPath = "\(NSBundle.mainBundle().resourcePath!)/\(effect)"
-            let soundURL = NSURL.fileURLWithPath(soundPath)
+            let soundPath = "\(Bundle.main.resourcePath!)/\(effect)"
+            let soundURL = URL(fileURLWithPath: soundPath)
             
             do{
-                let player = try AVAudioPlayer(contentsOfURL: soundURL)
+                let player = try AVAudioPlayer(contentsOf: soundURL)
                 player.numberOfLoops = 0
                 player.prepareToPlay()
                 audio[effect] = player
@@ -29,9 +29,9 @@ class AudioController {
         }
     }
     
-    func playEffect(name:String){
+    func playEffect(_ name:String){
         if let player = audio[name]{
-            if player.playing{
+            if player.isPlaying{
                 player.stop()
                 player.currentTime = 0
                 player.play()

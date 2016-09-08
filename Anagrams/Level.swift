@@ -15,7 +15,7 @@ struct Level {
     
     init(levelNumber:Int){
         let fileName = "level\(levelNumber).plist"
-        let levelPath = "\(NSBundle.mainBundle().resourcePath!)/\(fileName)"
+        let levelPath = "\(Bundle.main.resourcePath!)/\(fileName)"
         
         let levelDictionary: NSDictionary? = NSDictionary(contentsOfFile: levelPath)
         

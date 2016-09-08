@@ -10,9 +10,9 @@ import UIKit
 
 class ExplodeView: UIView{
     
-    private var emitter: CAEmitterLayer!
+    fileprivate var emitter: CAEmitterLayer!
     
-    override class func layerClass() -> AnyClass{
+    override class var layerClass : AnyClass{
         return CAEmitterLayer.self
     }
     
@@ -24,7 +24,7 @@ class ExplodeView: UIView{
         super.init(frame: frame)
         
         emitter = self.layer as! CAEmitterLayer
-        emitter.emitterPosition = CGPointMake(self.bounds.size.width / 2, self.bounds.size.height / 2)
+        emitter.emitterPosition = CGPoint(x: self.bounds.size.width / 2, y: self.bounds.size.height / 2)
         emitter.emitterSize = self.bounds.size
         emitter.emitterMode = kCAEmitterLayerAdditive
         emitter.emitterShape = kCAEmitterLayerRectangle
@@ -41,7 +41,7 @@ class ExplodeView: UIView{
         
         let emitterCell = CAEmitterCell()
         
-        emitterCell.contents = texture!.CGImage
+        emitterCell.contents = texture!.cgImage
         
         emitterCell.name = "cell"
         
@@ -63,15 +63,15 @@ class ExplodeView: UIView{
         emitter.emitterCells = [emitterCell]
         
         var delay = Int64(0.05 * Double(NSEC_PER_SEC))
-        var delayTime = dispatch_time(DISPATCH_TIME_NOW, delay)
-        dispatch_after(delayTime, dispatch_get_main_queue()) {
+        var delayTime = DispatchTime.now() + Double(delay) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: delayTime) {
             self.disableEmitterCell()
         }
         
         //remove explosion view
         delay = Int64(0.75 * Double(NSEC_PER_SEC))
-        delayTime = dispatch_time(DISPATCH_TIME_NOW, delay)
-        dispatch_after(delayTime, dispatch_get_main_queue()) {
+        delayTime = DispatchTime.now() + Double(delay) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: delayTime) {
             self.removeFromSuperview()
         }
     }

@@ -18,10 +18,10 @@ class HUDView:UIView {
     }
     
     override init(frame: CGRect) {
-        self.stopwatch = StopwatchView(frame: CGRectMake(ScreenWidth/2 - 150, 0, 300, 100))
+        self.stopwatch = StopwatchView(frame: CGRect(x: ScreenWidth/2 - 150, y: 0, width: 300, height: 100))
         self.stopwatch.setSeconds(0)
         
-        self.gamePoints = CounterLabelView(font: FontHUD, frame: CGRectMake(ScreenWidth - 200, 30, 200, 70))
+        self.gamePoints = CounterLabelView(font: FontHUD, frame: CGRect(x: ScreenWidth - 200, y: 30, width: 200, height: 70))
         gamePoints.textColor = UIColor(red: 0.38, green: 0.098, blue: 0.035, alpha: 1)
         gamePoints.value = 0
         
@@ -29,26 +29,26 @@ class HUDView:UIView {
         self.addSubview(self.stopwatch)
         self.addSubview(gamePoints)
         //adding points label
-        let pointsLabel = UILabel(frame: CGRectMake(ScreenWidth - 340, 30, 140, 70))
-        pointsLabel.backgroundColor = UIColor.clearColor()
+        let pointsLabel = UILabel(frame: CGRect(x: ScreenWidth - 340, y: 30, width: 140, height: 70))
+        pointsLabel.backgroundColor = UIColor.clear
         pointsLabel.font = FontHUD
         pointsLabel.text = "Points:"
         self.addSubview(pointsLabel)
-        self.userInteractionEnabled = true
+        self.isUserInteractionEnabled = true
         
         let hintButtonImage = UIImage(named: "btn")!
         
-        self.hintButton = UIButton(type:.Custom)
-        hintButton.setTitle("Hint!", forState: .Normal)
+        self.hintButton = UIButton(type:.custom)
+        hintButton.setTitle("Hint!", for: UIControlState())
         hintButton.titleLabel?.font = FontHUD
-        hintButton.setBackgroundImage(hintButtonImage, forState: .Normal)
-        hintButton.frame = CGRectMake(50, 30, hintButtonImage.size.width, hintButtonImage.size.height)
+        hintButton.setBackgroundImage(hintButtonImage, for: UIControlState())
+        hintButton.frame = CGRect(x: 50, y: 30, width: hintButtonImage.size.width, height: hintButtonImage.size.height)
         hintButton.alpha = 0.8
         self.addSubview(hintButton)
     }
     
-    override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
-        let hitView = super.hitTest(point, withEvent: event)
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        let hitView = super.hitTest(point, with: event)
         
         if hitView is UIButton {
             return hitView

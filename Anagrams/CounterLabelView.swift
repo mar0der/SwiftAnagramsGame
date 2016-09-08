@@ -9,8 +9,8 @@
 import UIKit
 
 class CounterLabelView: UILabel{
-    private var endValue: Int = 0
-    private var timer: NSTimer? = nil
+    fileprivate var endValue: Int = 0
+    fileprivate var timer: Timer? = nil
     
     var value: Int = 0 {
         didSet{
@@ -25,10 +25,10 @@ class CounterLabelView: UILabel{
     init(font: UIFont, frame:CGRect){
         super.init(frame:frame)
         self.font = font
-        self.backgroundColor = UIColor.clearColor()
+        self.backgroundColor = UIColor.clear
     }
     
-@objc func updateValue(timer:NSTimer){
+@objc func updateValue(_ timer:Timer){
         if(endValue < value){
             value -= 1
         }else{
@@ -43,7 +43,7 @@ class CounterLabelView: UILabel{
     }
     
 
-    func setValue(newValue:Int, duration:Float) {
+    func setValue(_ newValue:Int, duration:Float) {
  
         endValue = newValue
         
@@ -62,7 +62,7 @@ class CounterLabelView: UILabel{
             }
             
             //4 set the timer to update the value
-            timer = NSTimer.scheduledTimerWithTimeInterval(interval, target: self, selector:#selector(CounterLabelView.updateValue(_:)), userInfo: nil, repeats: true)
+            timer = Timer.scheduledTimer(timeInterval: interval, target: self, selector:#selector(CounterLabelView.updateValue(_:)), userInfo: nil, repeats: true)
         }
     }
     

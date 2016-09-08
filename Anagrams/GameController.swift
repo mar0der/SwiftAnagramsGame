@@ -13,17 +13,17 @@ class GameController {
     var level: Level!
     var hud: HUDView! {
         didSet {
-            hud.hintButton.addTarget(self, action: #selector(GameController.actionHint), forControlEvents: .TouchUpInside)
-            hud.hintButton.enabled = false
+            hud.hintButton.addTarget(self, action: #selector(GameController.actionHint), for: .touchUpInside)
+            hud.hintButton.isEnabled = false
         }
     }
     var onAnagramSolved:(() -> ())!
-    private var tiles = [TileView]()
-    private var targets = [TargetView]()
-    private var secondsLeft: Int = 0
-    private var timer: NSTimer?
-    private var data = GameData()
-    private var audioController: AudioController
+    fileprivate var tiles = [TileView]()
+    fileprivate var targets = [TargetView]()
+    fileprivate var secondsLeft: Int = 0
+    fileprivate var timer: Timer?
+    fileprivate var data = GameData()
+    fileprivate var audioController: AudioController
     
     init(){
         self.audioController = AudioController()
@@ -52,10 +52,10 @@ class GameController {
         //Important to add targets before the tiles so the will be under the tiles
         targets = []
         
-        for(index,letter) in anagram2.characters.enumerate(){
+        for(index,letter) in anagram2.characters.enumerated(){
             if(letter != " "){
                 let target = TargetView(letter: letter, sideLength: tileSide)
-                target.center = CGPointMake(xOffset + CGFloat(index)*(tileSide + TileMargin), ScreenHeight/4)
+                target.center = CGPoint(x: xOffset + CGFloat(index)*(tileSide + TileMargin), y: ScreenHeight/4)
                 gameView.addSubview(target)
                 targets.append(target)
             }
@@ -63,10 +63,10 @@ class GameController {
         
         tiles = []
         
-        for (index, letter) in anagram1.characters.enumerate() {
+        for (index, letter) in anagram1.characters.enumerated() {
             if letter != " " {
                 let tile = TileView(letter: letter, sideLength: tileSide)
-                tile.center = CGPointMake(xOffset + CGFloat(index)*(tileSide+TileMargin), ScreenHeight/4*3)
+                tile.center = CGPoint(x: xOffset + CGFloat(index)*(tileSide+TileMargin), y: ScreenHeight/4*3)
                 tile.randomize()
                 tile.dragDelegate = self
                 
@@ -77,46 +77,46 @@ class GameController {
         
         self.startStopwatch()
         //enable the hing button right after the game begins
-        hud.hintButton.enabled = true
+        hud.hintButton.isEnabled = true
 
     }
     
-    func placeTile(tileView: TileView, targetView: TargetView){
+    func placeTile(_ tileView: TileView, targetView: TargetView){
         tileView.isMatched = true
         targetView.isMatched = true
         
-        tileView.userInteractionEnabled = false
+        tileView.isUserInteractionEnabled = false
         
-        UIView.animateWithDuration(0.15,
+        UIView.animate(withDuration: 0.15,
             delay: 0.00,
-            options: UIViewAnimationOptions.CurveEaseOut,
+            options: UIViewAnimationOptions.curveEaseOut,
             animations:
             {
                 tileView.center = targetView.center
                 //streighten out the tile
-                tileView.transform = CGAffineTransformIdentity
+                tileView.transform = CGAffineTransform.identity
             },
             completion:
             {
                 (value:Bool) in
-                targetView.hidden = true
+                targetView.isHidden = true
             }
         )
-        let explode = ExplodeView(frame: CGRectMake(tileView.center.x, tileView.center.y, 10, 10))
+        let explode = ExplodeView(frame: CGRect(x: tileView.center.x, y: tileView.center.y, width: 10, height: 10))
         tileView.superview?.addSubview(explode)
-        tileView.superview?.sendSubviewToBack(explode)
+        tileView.superview?.sendSubview(toBack: explode)
     }
     
-    func pushTileOut(tileView: TileView){
+    func pushTileOut(_ tileView: TileView){
         //because we want to rotate and move verticli the tile
         tileView.randomize()
         
-        UIView.animateWithDuration(0.35,
+        UIView.animate(withDuration: 0.35,
             delay:0.00,
-            options:UIViewAnimationOptions.CurveEaseOut,
+            options:UIViewAnimationOptions.curveEaseOut,
             animations:{
-            tileView.center = CGPointMake(tileView.center.x + CGFloat(randomNumber(0, maxX: 40) - 20),
-                tileView.center.y + CGFloat (randomNumber(20, maxX: 30)))
+            tileView.center = CGPoint(x: tileView.center.x + CGFloat(randomNumber(0, maxX: 40) - 20),
+                y: tileView.center.y + CGFloat (randomNumber(20, maxX: 30)))
             },
             completion: nil
         )
@@ -131,7 +131,7 @@ class GameController {
         }
         
         //disable hint button right before game ends
-        hud.hintButton.enabled = false
+        hud.hintButton.isEnabled = false
         
         self.stopStopwatch()
         audioController.playEffect(SoundWin)
@@ -140,15 +140,15 @@ class GameController {
         let endX: CGFloat = ScreenWidth + 300
         let startY = firstTarget.center.y
         
-        let stars = StardustView(frame: CGRectMake(startX, startY, 10, 10))
+        let stars = StardustView(frame: CGRect(x: startX, y: startY, width: 10, height: 10))
         gameView.addSubview(stars)
-        gameView.sendSubviewToBack(stars)
+        gameView.sendSubview(toBack: stars)
         
-        UIView.animateWithDuration(3.0,
+        UIView.animate(withDuration: 3.0,
                                    delay: 0.0,
-                                   options: UIViewAnimationOptions.CurveEaseOut,
+                                   options: UIViewAnimationOptions.curveEaseOut,
                                    animations: {
-                                    stars.center = CGPointMake(endX, startY)
+                                    stars.center = CGPoint(x: endX, y: startY)
                                     },
                                    completion: {
                                     (value:Bool) in
@@ -162,7 +162,7 @@ class GameController {
         secondsLeft = level.timeToSolve
         hud.stopwatch.setSeconds(secondsLeft)
         
-        timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(GameController.tick(_:)), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(GameController.tick(_:)), userInfo: nil, repeats: true)
     }
     
     func stopStopwatch(){
@@ -172,15 +172,15 @@ class GameController {
     }
     
     func clearBoard(){
-        tiles.removeAll(keepCapacity: false)
-        targets.removeAll(keepCapacity: false)
+        tiles.removeAll(keepingCapacity: false)
+        targets.removeAll(keepingCapacity: false)
         
         for view in gameView.subviews {
             view.removeFromSuperview()
         }
     }
     
-    @objc func tick(timer:NSTimer){
+    @objc func tick(_ timer:Timer){
         secondsLeft -= 1
         hud.stopwatch.setSeconds(secondsLeft)
         if secondsLeft == 0 {
@@ -189,7 +189,7 @@ class GameController {
     }
     
     @objc func actionHint(){
-        hud.hintButton.enabled = false
+        hud.hintButton.isEnabled = false
         
         data.points -= level.pointsPerTile / 2
         hud.gamePoints.setValue(data.points, duration: 1.5)
@@ -211,14 +211,14 @@ class GameController {
             }
         }
         
-        if let target = foundTarget, tile = foundTile {
+        if let target = foundTarget, let tile = foundTile {
             //5 don't want the tile sliding under other tiles
-            gameView.bringSubviewToFront(tile)
+            gameView.bringSubview(toFront: tile)
             
             //6 show the animation to the user
-            UIView.animateWithDuration(1.5,
+            UIView.animate(withDuration: 1.5,
                                        delay:0.0,
-                                       options:UIViewAnimationOptions.CurveEaseOut,
+                                       options:UIViewAnimationOptions.curveEaseOut,
                                        animations:{
                                         tile.center = target.center
                 }, completion: {
@@ -227,7 +227,7 @@ class GameController {
    
                     self.placeTile(tile, targetView: target)
                     
-                    self.hud.hintButton.enabled = true
+                    self.hud.hintButton.isEnabled = true
                     
                     self.checkForSuccess()
                     
@@ -239,7 +239,7 @@ class GameController {
 
 extension GameController:TileDragDelegateProtocol{
     
-    func tileView(tileView: TileView, didDragToPoint point: CGPoint) {
+    func tileView(_ tileView: TileView, didDragToPoint point: CGPoint) {
         var targetView: TargetView?
         for tv in targets {
             if tv.frame.contains(point) && !tv.isMatched {

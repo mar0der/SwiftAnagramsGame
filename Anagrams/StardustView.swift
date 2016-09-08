@@ -9,7 +9,7 @@
 import UIKit
 
 class StardustView: UIView{
-    private var emitter: CAEmitterLayer!
+    fileprivate var emitter: CAEmitterLayer!
     
     required init(coder aDecoder: NSCoder){
         fatalError("use the other init")
@@ -19,13 +19,13 @@ class StardustView: UIView{
         super.init(frame: frame)
         
         emitter = self.layer as! CAEmitterLayer
-        emitter.emitterPosition = CGPointMake(self.bounds.size.width / 2, self.bounds.size.height / 2)
+        emitter.emitterPosition = CGPoint(x: self.bounds.size.width / 2, y: self.bounds.size.height / 2)
         emitter.emitterSize = self.bounds.size
         emitter.emitterMode = kCAEmitterLayerAdditive
         emitter.emitterShape = kCAEmitterLayerRectangle
     }
     
-    override class func layerClass() -> AnyClass{
+    override class var layerClass : AnyClass{
         //configure the UIView
         return  CAEmitterLayer.self
     }
@@ -39,7 +39,7 @@ class StardustView: UIView{
         assert(texture != nil, "particle image not found")
         
         let emitterCell = CAEmitterCell()
-        emitterCell.contents = texture!.CGImage
+        emitterCell.contents = texture!.cgImage
         emitterCell.name = "cell"
         emitterCell.birthRate = 200
         emitterCell.lifetime = 1.5
